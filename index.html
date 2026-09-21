@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#faf9f7" />
+  <meta name="description"
+    content="Turn messy phone photos of your products into clean, professional banners with realistic shadows — in seconds. Built for resellers." />
+  <title>Relight — AI Product Photo Cleaner</title>
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("relight-theme");
+        var dark = stored ? stored === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (dark) document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = dark ? "dark" : "light";
+        var tc = document.querySelector('meta[name="theme-color"]');
+        if (tc) tc.setAttribute("content", dark ? "#262521" : "#faf9f7");
+      } catch (e) { }
+    })();
+  </script>
+  <style>
+    #boot-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      background: #faf9f7;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+
+    html.dark #boot-screen {
+      background: #262521;
+    }
+
+    #boot-screen.boot-exit {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .boot-mark {
+      position: relative;
+      filter: drop-shadow(0 10px 26px rgba(15, 23, 25, 0.18));
+      animation: boot-float 2.4s ease-in-out infinite;
+    }
+
+    .boot-sun {
+      transform-origin: 30px 28px;
+      animation: boot-pulse 1.8s ease-in-out infinite;
+    }
+
+    .boot-sweep {
+      animation: boot-sweep 1.9s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .boot-spark-a {
+      animation: boot-twinkle 1.8s ease-in-out infinite;
+    }
+
+    .boot-spark-b {
+      animation: boot-twinkle 1.8s ease-in-out 0.6s infinite;
+    }
+
+    .boot-word {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #1c1f20;
+    }
+
+    html.dark .boot-word {
+      color: #f4f2ee;
+    }
+
+    .boot-word span {
+      background: linear-gradient(100deg, transparent 20%, rgba(244, 178, 62, 0.9) 50%, transparent 80%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: boot-shimmer 1.6s linear infinite;
+    }
+
+    .boot-bar {
+      position: relative;
+      width: 148px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(28, 31, 32, 0.12);
+      overflow: hidden;
+    }
+
+    html.dark .boot-bar {
+      background: rgba(244, 242, 238, 0.14);
+    }
+
+    .boot-bar::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: 40%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #2dd4bf, #f4b23e);
+      animation: boot-slide 1.15s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    .boot-hint {
+      font-size: 12px;
+      color: rgba(28, 31, 32, 0.55);
+      letter-spacing: 0.01em;
+    }
+
+    html.dark .boot-hint {
+      color: rgba(244, 242, 238, 0.5);
+    }
+
+    @keyframes boot-float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes boot-pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.09);
+        opacity: 0.86;
+      }
+    }
+
+    @keyframes boot-sweep {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(128px);
+      }
+    }
+
+    @keyframes boot-twinkle {
+
+      0%,
+      100% {
+        opacity: 0.25;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes boot-shimmer {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+
+    @keyframes boot-slide {
+      0% {
+        transform: translateX(-110%);
+      }
+
+      100% {
+        transform: translateX(360%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .boot-mark,
+      .boot-sun,
+      .boot-sweep,
+      .boot-spark-a,
+      .boot-spark-b,
+      .boot-word span,
+      .boot-bar::after {
+        animation: none;
+      }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=Space+Grotesk:wght@400..700&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <div id="boot-screen" aria-hidden="true">
+    <svg class="boot-mark" width="72" height="72" viewBox="0 0 64 64" fill="none">
+      <rect width="64" height="64" rx="14" fill="#0F1719" />
+      <circle class="boot-sun" cx="30" cy="28" r="11" fill="#F4B23E" />
+      <path d="M43 45 L24 52 C20.5 53.2 17.5 51 18.5 47.5 L23 33.5 L43 45 Z" fill="#2DD4BF" />
+      <path d="M23 33.5 L37.5 41.7 L27.5 49.9 C24.9 51.9 21.6 50.3 22.3 47.1 L23 33.5 Z" fill="#14B8A6"
+        opacity="0.55" />
+      <circle class="boot-spark-a" cx="51" cy="14" r="2.5" fill="#F4B23E" />
+      <circle class="boot-spark-b" cx="13" cy="51" r="2" fill="#2DD4BF" />
+      <clipPath id="boot-clip">
+        <rect width="64" height="64" rx="14" />
+      </clipPath>
+      <g clip-path="url(#boot-clip)">
+        <rect class="boot-sweep" x="-64" y="0" width="64" height="64" fill="url(#boot-sweep-grad)" />
+      </g>
+      <defs>
+        <linearGradient id="boot-sweep-grad" x1="0" y1="0" x2="64" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
+          <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.18" />
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+    <div class="boot-word"><span>Relight</span></div>
+    <div class="boot-bar"></div>
+    <div class="boot-hint">Warming up the studio…</div>
+  </div>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
